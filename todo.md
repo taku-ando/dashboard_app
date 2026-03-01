@@ -8,75 +8,73 @@
 
 ## 現在の状態（2026-03-01時点）
 
-- `app/build.gradle.kts` — 全依存関係設定済み ✅
+- `app/build.gradle.kts` — 全依存関係設定済み・minSdk=26修正済み ✅
 - `gradle/libs.versions.toml` — バージョン定義済み ✅
-- `MainActivity.kt` — 空のスキャフォールド（更新必要）
-- `ui/theme/` — Color.kt, Theme.kt, Type.kt 存在
-- **それ以外はすべて未実装**
+- `MainActivity.kt` — @AndroidEntryPoint 更新済み ✅
+- `DashboardApplication.kt` — @HiltAndroidApp 実装済み ✅
+- `ui/theme/` — Color.kt, Theme.kt, Type.kt 存在 ✅
+- `data/local/entity/` — 全6エンティティ実装済み ✅
+- `data/local/dao/` — 全6 DAO実装済み ✅
+- `data/local/AppDatabase.kt` — デフォルトカテゴリコールバック付き実装済み ✅
+- `domain/model/` — 全5ドメインモデル実装済み ✅
+- `data/repository/` — 全6 interface + impl 実装済み ✅
+- `di/DatabaseModule.kt` + `di/RepositoryModule.kt` — 実装済み ✅
+- **Steps 1〜7 完了。Step 8（Util層）から継続。**
 
 ---
 
 ## Phase 1（MVP）実装タスク
 
-### Step 1: Applicationクラス / エントリーポイント
+### Step 1: Applicationクラス / エントリーポイント ✅
 
-- [ ] `DashboardApplication.kt` 作成（`@HiltAndroidApp`）
-- [ ] `AndroidManifest.xml` に `android:name=".DashboardApplication"` 追加
-- [ ] `MainActivity.kt` 更新（`@AndroidEntryPoint` + `NavHost` 呼び出し）
+- [x] `DashboardApplication.kt` 作成（`@HiltAndroidApp`）
+- [x] `AndroidManifest.xml` に `android:name=".DashboardApplication"` 追加
+- [x] `MainActivity.kt` 更新（`@AndroidEntryPoint` + 暫定Scaffold）
 
-### Step 2: Data層 — Room Entities
+### Step 2: Data層 — Room Entities ✅
 
-> 詳細スキーマ: `docs/db_schema.md`
+- [x] `data/local/entity/TransactionEntity.kt`
+- [x] `data/local/entity/CategoryEntity.kt`
+- [x] `data/local/entity/CreditCardEntity.kt`
+- [x] `data/local/entity/BudgetEntity.kt`
+- [x] `data/local/entity/CategoryRuleEntity.kt`
+- [x] `data/local/entity/ImportHistoryEntity.kt`
 
-- [ ] `data/local/entity/TransactionEntity.kt`
-- [ ] `data/local/entity/CategoryEntity.kt`
-- [ ] `data/local/entity/CreditCardEntity.kt`
-- [ ] `data/local/entity/BudgetEntity.kt`
-- [ ] `data/local/entity/CategoryRuleEntity.kt`
-- [ ] `data/local/entity/ImportHistoryEntity.kt`
+### Step 3: Data層 — DAOs ✅
 
-### Step 3: Data層 — DAOs
+- [x] `data/local/dao/TransactionDao.kt`
+- [x] `data/local/dao/CategoryDao.kt`
+- [x] `data/local/dao/CreditCardDao.kt`
+- [x] `data/local/dao/BudgetDao.kt`
+- [x] `data/local/dao/CategoryRuleDao.kt`
+- [x] `data/local/dao/ImportHistoryDao.kt`
 
-- [ ] `data/local/dao/TransactionDao.kt`
-  - `insert`, `delete`, `deleteByImportId`, `getAll`, `getByMonth`, `getUnclassified`, `search`
-- [ ] `data/local/dao/CategoryDao.kt`
-  - `insert`, `update`, `delete`, `getAll`
-- [ ] `data/local/dao/CreditCardDao.kt`
-  - `insert`, `update`, `delete`, `getAll`
-- [ ] `data/local/dao/BudgetDao.kt`
-  - `insert`, `update`, `delete`, `getByMonth`
-- [ ] `data/local/dao/CategoryRuleDao.kt`
-  - `insert`, `delete`, `getAll`（exact→prefix→contains順）
-- [ ] `data/local/dao/ImportHistoryDao.kt`
-  - `insert`, `delete`, `getAll`, `findByHash`
+### Step 4: Data層 — AppDatabase ✅
 
-### Step 4: Data層 — AppDatabase
+- [x] `data/local/AppDatabase.kt`（全Entity登録・バージョン1）
+- [x] データベースコールバック（初期カテゴリ7件を`onCreate`でINSERT）
 
-- [ ] `data/local/AppDatabase.kt`（全Entity登録・バージョン1）
-- [ ] データベースコールバック（初期カテゴリ7件を`prepopulate`）
+### Step 5: Domain層 — ドメインモデル ✅
 
-### Step 5: Domain層 — ドメインモデル
+- [x] `domain/model/Transaction.kt`
+- [x] `domain/model/Category.kt`
+- [x] `domain/model/CreditCard.kt`
+- [x] `domain/model/Budget.kt`
+- [x] `domain/model/CategoryRule.kt`
 
-- [ ] `domain/model/Transaction.kt`
-- [ ] `domain/model/Category.kt`
-- [ ] `domain/model/CreditCard.kt`
-- [ ] `domain/model/Budget.kt`
-- [ ] `domain/model/CategoryRule.kt`
+### Step 6: Data層 — Repositoryインターフェース & 実装 ✅
 
-### Step 6: Data層 — Repositoryインターフェース & 実装
+- [x] `data/repository/TransactionRepository.kt` + `Impl`
+- [x] `data/repository/CategoryRepository.kt` + `Impl`
+- [x] `data/repository/BudgetRepository.kt` + `Impl`
+- [x] `data/repository/CardRepository.kt` + `Impl`
+- [x] `data/repository/RuleRepository.kt` + `Impl`
+- [x] `data/repository/ImportHistoryRepository.kt` + `Impl`
 
-- [ ] `data/repository/TransactionRepository.kt`（interface）
-- [ ] `data/repository/TransactionRepositoryImpl.kt`（Room実装）
-- [ ] `data/repository/CategoryRepository.kt` + `Impl`
-- [ ] `data/repository/BudgetRepository.kt` + `Impl`
-- [ ] `data/repository/CardRepository.kt` + `Impl`
-- [ ] `data/repository/RuleRepository.kt` + `Impl`
-- [ ] `data/repository/ImportHistoryRepository.kt` + `Impl`
+### Step 7: DI — Hiltモジュール ✅
 
-### Step 7: DI — Hiltモジュール
-
-- [ ] `di/DatabaseModule.kt`（AppDatabase, 各DAO提供）
-- [ ] `di/RepositoryModule.kt`（各Repository実装をinterfaceにバインド）
+- [x] `di/DatabaseModule.kt`（AppDatabase, 各DAO提供）
+- [x] `di/RepositoryModule.kt`（各Repository実装をinterfaceにバインド）
 
 ### Step 8: Util層
 
