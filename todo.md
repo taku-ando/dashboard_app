@@ -19,7 +19,9 @@
 - `domain/model/` — 全5ドメインモデル実装済み ✅
 - `data/repository/` — 全6 interface + impl 実装済み ✅
 - `di/DatabaseModule.kt` + `di/RepositoryModule.kt` — 実装済み ✅
-- **Steps 1〜7 完了。Step 8（Util層）から継続。**
+- `util/TextNormalizer.kt` — 実装済み ✅
+- `util/CsvParser.kt` — 実装済み ✅
+- **Steps 1〜8 完了。Step 9（UseCases）から継続。**
 
 ---
 
@@ -76,13 +78,13 @@
 - [x] `di/DatabaseModule.kt`（AppDatabase, 各DAO提供）
 - [x] `di/RepositoryModule.kt`（各Repository実装をinterfaceにバインド）
 
-### Step 8: Util層
+### Step 8: Util層 ✅
 
-- [ ] `util/TextNormalizer.kt`（全角→半角変換・正規化）
-- [ ] `util/CsvParser.kt`
+- [x] `util/TextNormalizer.kt`（全角→半角変換・正規化）
+- [x] `util/CsvParser.kt`
   - イオンカードCSVフォーマット対応
   - 汎用CSV（列名自動判別）
-  - 文字コード自動判別（UTF-8 / Shift-JIS）
+  - 文字コード自動判別（UTF-8 / Shift-JIS / Windows-31J）
   - SHA-256ハッシュ生成
 
 ### Step 9: Domain層 — UseCases
