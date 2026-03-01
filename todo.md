@@ -21,7 +21,10 @@
 - `di/DatabaseModule.kt` + `di/RepositoryModule.kt` — 実装済み ✅
 - `util/TextNormalizer.kt` — 実装済み ✅
 - `util/CsvParser.kt` — 実装済み ✅
-- **Steps 1〜8 完了。Step 9（UseCases）から継続。**
+- `domain/usecase/ClassifyTransactionUseCase.kt` — 実装済み ✅
+- `domain/usecase/ImportCsvUseCase.kt` — 実装済み ✅
+- `domain/usecase/GetDashboardSummaryUseCase.kt` — 実装済み ✅
+- **Steps 1〜9 完了。Step 10（UI・ナビゲーション）から継続。**
 
 ---
 
@@ -87,15 +90,15 @@
   - 文字コード自動判別（UTF-8 / Shift-JIS / Windows-31J）
   - SHA-256ハッシュ生成
 
-### Step 9: Domain層 — UseCases
+### Step 9: Domain層 — UseCases ✅
 
-- [ ] `domain/usecase/ClassifyTransactionUseCase.kt`
+- [x] `domain/usecase/ClassifyTransactionUseCase.kt`
   - ① CategoryRule照合（exact → prefix → contains）
   - ② キーワード辞書照合（TextNormalizerで正規化後）
   - ③ AI（Phase 2以降・未実装のまま残す）
-- [ ] `domain/usecase/ImportCsvUseCase.kt`
+- [x] `domain/usecase/ImportCsvUseCase.kt`
   - CSV解析 → SHA-256重複チェック → 自動仕分け → DB保存
-- [ ] `domain/usecase/GetDashboardSummaryUseCase.kt`
+- [x] `domain/usecase/GetDashboardSummaryUseCase.kt`
   - 当月合計・カテゴリ別集計・予算消化率・未分類件数
 
 ### Step 10: UI層 — ナビゲーション
