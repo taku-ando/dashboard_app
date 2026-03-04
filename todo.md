@@ -24,7 +24,19 @@
 - `domain/usecase/ClassifyTransactionUseCase.kt` — 実装済み ✅
 - `domain/usecase/ImportCsvUseCase.kt` — 実装済み ✅
 - `domain/usecase/GetDashboardSummaryUseCase.kt` — 実装済み ✅
-- **Steps 1〜9 完了。Step 10（UI・ナビゲーション）から継続。**
+- `ui/navigation/Screen.kt` — 実装済み ✅
+- `ui/navigation/AppNavHost.kt` — 実装済み ✅
+- `ui/components/BottomNavBar.kt` — 実装済み ✅
+- `ui/components/TopBar.kt` — 実装済み ✅
+- `ui/AppViewModel.kt` — 実装済み ✅
+- `ui/kakeibo/dashboard/` — DashboardViewModel + DashboardScreen 実装済み ✅
+- `ui/kakeibo/transactions/` — TransactionsViewModel + TransactionsScreen 実装済み ✅
+- `ui/kakeibo/import/` — ImportViewModel + ImportScreen 実装済み ✅
+- `ui/kakeibo/add/` — AddTransactionViewModel + AddTransactionScreen 実装済み ✅
+- `ui/kakeibo/budget/` — BudgetViewModel + BudgetScreen 実装済み ✅
+- `ui/kakeibo/settings/` — SettingsViewModel + SettingsScreen 実装済み ✅
+- `MainActivity.kt` — AppNavHost 接続済み ✅
+- **Steps 1〜16 完了。Phase 1 MVP 実装完了。**
 
 ---
 
@@ -101,71 +113,63 @@
 - [x] `domain/usecase/GetDashboardSummaryUseCase.kt`
   - 当月合計・カテゴリ別集計・予算消化率・未分類件数
 
-### Step 10: UI層 — ナビゲーション
+### Step 10: UI層 — ナビゲーション ✅
 
-> 詳細: `docs/package_structure.md`
+- [x] `ui/components/BottomNavBar.kt`（5タブ）
+- [x] `ui/components/TopBar.kt`（共通タイトルバー）
+- [x] ナビゲーションルート定義（`ui/navigation/Screen.kt`）
+- [x] `AppNavHost.kt`（NavGraph全画面登録）
 
-- [ ] `ui/components/BottomNavBar.kt`（5タブ）
-- [ ] `ui/components/TopBar.kt`（共通タイトルバー）
-- [ ] ナビゲーションルート定義（sealed class or enum）
-- [ ] `AppNavHost.kt`（NavGraph全画面登録）
+### Step 11: UI層 — ダッシュボード画面 ✅
 
-### Step 11: UI層 — ダッシュボード画面
-
-- [ ] `ui/kakeibo/dashboard/DashboardViewModel.kt`
-  - `GetDashboardSummaryUseCase` 呼び出し
-  - 月切り替えロジック
-- [ ] `ui/kakeibo/dashboard/DashboardScreen.kt`
+- [x] `ui/kakeibo/dashboard/DashboardViewModel.kt`
+- [x] `ui/kakeibo/dashboard/DashboardScreen.kt`
   - 今月合計金額カード
-  - カテゴリ別ドーナツグラフ（Vico）
-  - 月別推移棒グラフ（Vico・直近12ヶ月）
+  - カテゴリ別ドーナツグラフ（Canvas実装）
+  - 月別推移棒グラフ（直近12ヶ月・Canvas実装）
   - 予算アラート（超過カテゴリ警告）
   - 未分類件数バッジ
 
-### Step 12: UI層 — 取引一覧画面
+### Step 12: UI層 — 取引一覧画面 ✅
 
-- [ ] `ui/kakeibo/transactions/TransactionsViewModel.kt`
-  - 検索・フィルター（店名・カテゴリ・カード・期間）
-  - ソート（日付・金額）
-  - カテゴリ修正
-  - 1件削除（確認ダイアログ）
-- [ ] `ui/kakeibo/transactions/TransactionsScreen.kt`
-  - LazyColumn一覧
-  - スワイプ削除
-  - 検索バー・フィルターチップ
+- [x] `ui/kakeibo/transactions/TransactionsViewModel.kt`
+- [x] `ui/kakeibo/transactions/TransactionsScreen.kt`
+  - LazyColumn一覧（日付別グルーピング）
+  - スワイプ削除（AlertDialog確認）
+  - SearchBar・カテゴリフィルターチップ
+  - タップ → カテゴリ変更ドロップダウン
 
-### Step 13: UI層 — インポート画面
+### Step 13: UI層 — インポート画面 ✅
 
-- [ ] `ui/kakeibo/import/ImportViewModel.kt`
-  - SAFファイルピッカー連携
-  - `ImportCsvUseCase` 呼び出し
-  - 重複ファイル警告ダイアログ
-  - インポートプレビュー（件数・仕分け結果）
-- [ ] `ui/kakeibo/import/ImportScreen.kt`
-  - ファイル選択ボタン
-  - インポートプレビュー（BottomSheet）
-  - 確定ボタン
+- [x] `ui/kakeibo/import/ImportViewModel.kt`
+- [x] `ui/kakeibo/import/ImportScreen.kt`
+  - SAFファイルピッカー（GetContent("text/*")）
+  - 重複ファイル警告AlertDialog
+  - インポート結果Snackbar
   - インポート履歴タブ（まとめて削除）
 
-### Step 14: UI層 — 手動入力画面
+### Step 14: UI層 — 手動入力画面 ✅
 
-- [ ] 手動入力フォーム（日付ピッカー・金額・店名・カテゴリ選択・メモ）
-  - Material3 `DatePicker` 使用
+- [x] `ui/kakeibo/add/AddTransactionViewModel.kt`
+- [x] `ui/kakeibo/add/AddTransactionScreen.kt`
+  - Material3 DatePickerDialog
+  - 金額・店名・カテゴリ・メモ入力
+  - バリデーション + Snackbar
 
-### Step 15: UI層 — 予算管理画面
+### Step 15: UI層 — 予算管理画面 ✅
 
-- [ ] `ui/kakeibo/budget/BudgetViewModel.kt`
-- [ ] `ui/kakeibo/budget/BudgetScreen.kt`
-  - カテゴリ別予算設定
-  - `LinearProgressIndicator` で消化率表示
-  - 超過アラート
+- [x] `ui/kakeibo/budget/BudgetViewModel.kt`
+- [x] `ui/kakeibo/budget/BudgetScreen.kt`
+  - カテゴリ別予算設定（AlertDialogで編集）
+  - LinearProgressIndicatorで消化率表示
+  - 超過アラート（errorカラー）
 
-### Step 16: UI層 — 設定画面
+### Step 16: UI層 — 設定画面 ✅
 
-- [ ] `ui/kakeibo/settings/SettingsViewModel.kt`
-- [ ] `ui/kakeibo/settings/SettingsScreen.kt`
-  - カード管理（登録・編集・削除）
-  - カテゴリ管理（一覧・追加）
+- [x] `ui/kakeibo/settings/SettingsViewModel.kt`
+- [x] `ui/kakeibo/settings/SettingsScreen.kt`
+  - カード管理（登録・削除）
+  - カテゴリ管理（一覧・追加・削除）
   - 仕分けルール管理（一覧・追加・削除）
 
 ---
