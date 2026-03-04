@@ -15,7 +15,7 @@ import com.example.dashboard.ui.components.BottomNavBar
 import com.example.dashboard.ui.kakeibo.add.AddTransactionScreen
 import com.example.dashboard.ui.kakeibo.budget.BudgetScreen
 import com.example.dashboard.ui.kakeibo.dashboard.DashboardScreen
-import com.example.dashboard.ui.kakeibo.import.ImportScreen
+import com.example.dashboard.ui.kakeibo.csvimport.ImportScreen
 import com.example.dashboard.ui.kakeibo.settings.SettingsScreen
 import com.example.dashboard.ui.kakeibo.transactions.TransactionsScreen
 

@@ -1,4 +1,4 @@
-package com.example.dashboard.ui.kakeibo.import
+package com.example.dashboard.ui.kakeibo.csvimport
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel

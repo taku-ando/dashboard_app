@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.dashboard.domain.usecase.DashboardSummary
 import com.example.dashboard.domain.usecase.GetDashboardSummaryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -22,6 +23,7 @@ data class DashboardUiState(
     val isLoading: Boolean = true
 )
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
     private val getDashboardSummary: GetDashboardSummaryUseCase
