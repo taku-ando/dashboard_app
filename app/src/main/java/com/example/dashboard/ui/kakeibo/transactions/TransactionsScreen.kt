@@ -20,9 +20,6 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
-import androidx.compose.material3.DismissDirection
-import androidx.compose.material3.DismissState
-import androidx.compose.material3.DismissValue
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,10 +28,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
-import androidx.compose.material3.SwipeToDismiss
+import androidx.compose.material3.SearchBarDefaults
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberDismissState
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -73,16 +72,22 @@ fun TransactionsScreen(
         ) {
             // 検索バー
             SearchBar(
-                query = state.searchQuery,
-                onQueryChange = viewModel::onSearchQueryChanged,
-                onSearch = { searchActive = false },
-                active = searchActive,
-                onActiveChange = { searchActive = it },
+                inputField = {
+                    SearchBarDefaults.InputField(
+                        query = state.searchQuery,
+                        onQueryChange = viewModel::onSearchQueryChanged,
+                        onSearch = {},
+                        expanded = searchActive,
+                        onExpandedChange = { searchActive = it },
+                        placeholder = { Text("店名で検索") },
+                        leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) }
+                    )
+                },
+                expanded = searchActive,
+                onExpandedChange = { searchActive = it },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                placeholder = { Text("店名で検索") },
-                leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) }
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {}
 
             // カテゴリフィルターチップ
@@ -185,21 +190,21 @@ private fun SwipeToDeleteItem(
     onDeleteRequest: () -> Unit,
     onCategoryChange: (String?) -> Unit
 ) {
-    val dismissState = rememberDismissState(
+    val dismissState = rememberSwipeToDismissBoxState(
         confirmValueChange = { value ->
-            if (value == DismissValue.DismissedToStart) {
+            if (value == SwipeToDismissBoxValue.EndToStart) {
                 onDeleteRequest()
             }
             false  // dismiss はダイアログ確認後なので false
         }
     )
 
-    SwipeToDismiss(
+    SwipeToDismissBox(
         state = dismissState,
-        directions = setOf(DismissDirection.EndToStart),
-        background = {
+        enableDismissFromStartToEnd = false,
+        backgroundContent = {
             val color by animateColorAsState(
-                if (dismissState.targetValue == DismissValue.DismissedToStart)
+                if (dismissState.targetValue == SwipeToDismissBoxValue.EndToStart)
                     MaterialTheme.colorScheme.errorContainer
                 else Color.Transparent,
                 label = "swipe_bg"
@@ -217,16 +222,15 @@ private fun SwipeToDeleteItem(
                     tint = MaterialTheme.colorScheme.error
                 )
             }
-        },
-        dismissContent = {
-            TransactionItem(
-                transaction = transaction,
-                category = category,
-                allCategories = allCategories,
-                onCategoryChange = onCategoryChange
-            )
         }
-    )
+    ) {
+        TransactionItem(
+            transaction = transaction,
+            category = category,
+            allCategories = allCategories,
+            onCategoryChange = onCategoryChange
+        )
+    }
 }
 
 // ---------------------------------------------------------------------------
