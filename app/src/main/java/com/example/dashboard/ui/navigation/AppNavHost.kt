@@ -1,14 +1,10 @@
 package com.example.dashboard.ui.navigation
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
@@ -16,11 +12,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.dashboard.ui.AppViewModel
 import com.example.dashboard.ui.components.BottomNavBar
+import com.example.dashboard.ui.kakeibo.add.AddTransactionScreen
+import com.example.dashboard.ui.kakeibo.budget.BudgetScreen
+import com.example.dashboard.ui.kakeibo.dashboard.DashboardScreen
+import com.example.dashboard.ui.kakeibo.import.ImportScreen
+import com.example.dashboard.ui.kakeibo.settings.SettingsScreen
+import com.example.dashboard.ui.kakeibo.transactions.TransactionsScreen
 
-/**
- * アプリ全体の NavGraph。
- * 各画面 Composable は Step 11〜16 で実装予定。
- */
 @Composable
 fun AppNavHost(
     appViewModel: AppViewModel = hiltViewModel()
@@ -42,30 +40,23 @@ fun AppNavHost(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(Screen.Dashboard.route) {
-                PlaceholderScreen("ダッシュボード（Step 11で実装）")
+                DashboardScreen()
             }
             composable(Screen.Transactions.route) {
-                PlaceholderScreen("取引一覧（Step 12で実装）")
+                TransactionsScreen()
             }
             composable(Screen.Import.route) {
-                PlaceholderScreen("CSVインポート（Step 13で実装）")
+                ImportScreen()
             }
             composable(Screen.AddTransaction.route) {
-                PlaceholderScreen("手動入力（Step 14で実装）")
+                AddTransactionScreen(navController = navController)
             }
             composable(Screen.Budget.route) {
-                PlaceholderScreen("予算管理（Step 15で実装）")
+                BudgetScreen()
             }
             composable(Screen.Settings.route) {
-                PlaceholderScreen("設定（Step 16で実装）")
+                SettingsScreen()
             }
         }
-    }
-}
-
-@Composable
-private fun PlaceholderScreen(label: String) {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(label)
     }
 }
